@@ -4,6 +4,8 @@ A WordPress plugin that replaces hardcoded webinar listings with dynamic webinar
 
 **Version:** 1.1.0 | **Requires:** WordPress 6.0+, PHP 7.4+ | **License:** GPLv2
 
+![webinar-cards Screenshot](webinar-cards.png)
+
 ---
 
 ## Installation
