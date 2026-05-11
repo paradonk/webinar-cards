@@ -118,6 +118,9 @@ webinar-cards/
 
 ## Changelog
 
+### 1.1.1
+- Fix: Registration link now redirects the user back to the originating page after account creation.
+
 ### 1.1.0
 - New: Email gate — restrict video access by allowed domain or specific email address.
 - New: Access Settings page (Webinars → Access Settings) to manage gate rules.

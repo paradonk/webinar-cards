@@ -47,7 +47,7 @@ class Webinar_Cards_Shortcode {
 				'gateEnabled' => Webinar_Cards_Access::is_gate_enabled(),
 				'hasAccess'   => Webinar_Cards_Access::visitor_has_access(),
 				'loginUrl'    => wp_login_url( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '/' ) ) ),
-				'registerUrl' => wp_registration_url(),
+				'registerUrl' => add_query_arg( 'redirect_to', esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '/' ) ), wp_registration_url() ),
 			)
 		);
 
