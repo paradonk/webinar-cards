@@ -194,17 +194,12 @@ class Webinar_Cards_Shortcode {
 
 	/**
 	 * Purge NitroPack's page cache for every published page that contains
-	 * the [webinar_cards] shortcode. Falls back to a full purge if the
-	 * targeted hook is unavailable or no matching pages are found.
+	 * the [webinar_cards] shortcode. Falls back to a full purge when no
+	 * matching pages are found. No-op when NitroPack is not active.
 	 *
 	 * @return void
 	 */
 	private static function purge_nitropack_cache() {
-		// Do nothing when NitroPack is not active.
-		if ( ! has_action( 'nitropack_integration_purge_url' ) && ! has_action( 'nitropack_integration_purge_all' ) ) {
-			return;
-		}
-
 		global $wpdb;
 
 		// Find published pages/posts that embed the shortcode.
@@ -214,13 +209,12 @@ class Webinar_Cards_Shortcode {
 			   AND post_content LIKE '%[webinar_cards%'"
 		);
 
-		if ( empty( $ids ) || ! has_action( 'nitropack_integration_purge_url' ) ) {
+		if ( ! empty( $ids ) ) {
+			foreach ( $ids as $post_id ) {
+				do_action( 'nitropack_integration_purge_url', get_permalink( (int) $post_id ) );
+			}
+		} else {
 			do_action( 'nitropack_integration_purge_all' );
-			return;
-		}
-
-		foreach ( $ids as $post_id ) {
-			do_action( 'nitropack_integration_purge_url', get_permalink( (int) $post_id ) );
 		}
 	}
 
