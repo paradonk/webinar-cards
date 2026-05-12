@@ -3,7 +3,7 @@
  * Plugin Name: Webinar Cards
  * Plugin URI:  https://www.data-civil.com/webinar
  * Description: Responsive webinar card grid with inline YouTube embeds, managed via a custom post type and a shortcode.
- * Version:     1.1.1
+ * Version:     1.1.2
  * Author:      K.Paradorn
  * Author URI:  https://www.data-civil.com
  * License:     GPL-2.0-or-later
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WEBINAR_CARDS_VERSION',    '1.1.1' );
+define( 'WEBINAR_CARDS_VERSION',    '1.1.2' );
 define( 'WEBINAR_CARDS_FILE',       __FILE__ );
 define( 'WEBINAR_CARDS_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'WEBINAR_CARDS_URL',        plugin_dir_url( __FILE__ ) );

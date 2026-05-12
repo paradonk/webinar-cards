@@ -284,6 +284,7 @@ class Webinar_Cards {
 	 * @return void
 	 */
 	private function init_hooks() {
+		add_filter( 'register_url', function() { return 'https://www.dextragroup.com/registration/'; } );
 		add_action( 'admin_menu', array( $this, 'maybe_register_marketing_menu' ), 1 );
 		add_action( 'admin_menu', array( $this, 'register_marketing_sections' ), 2 );
 		add_action( 'admin_menu', array( $this, 'reorder_marketing_submenu' ), 11 );

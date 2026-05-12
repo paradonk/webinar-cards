@@ -126,17 +126,13 @@ class Webinar_Cards_Access {
 			wp_send_json_success( array( 'step' => 'verify' ) );
 		}
 
-		// Not on any list — return login / register URLs with redirect back here.
-		$redirect = isset( $_SERVER['HTTP_REFERER'] )
-			? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) )
-			: home_url();
-
+		// Not on any list — return login / register URLs with redirect back to webinar page.
 		wp_send_json_error(
 			array(
 				'code'         => 'not_allowed',
 				'message'      => __( 'Your email is not on the access list. Please sign in or register to continue.', 'webinar-cards' ),
-				'login_url'    => wp_login_url( $redirect ),
-				'register_url' => wp_registration_url(),
+				'login_url'    => wp_login_url( 'https://www.dextragroup.com/webinar/' ),
+				'register_url' => add_query_arg( 'redirect_to', rawurlencode( 'https://www.dextragroup.com/webinar/' ), wp_registration_url() ),
 			)
 		);
 	}

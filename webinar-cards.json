@@ -1,18 +1,18 @@
 {
   "name": "Webinar Cards",
   "slug": "webinar-cards",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "<a href=\"https://www.data-civil.com\">K.Paradorn</a>",
   "author_profile": "https://www.data-civil.com",
   "requires": "6.0",
   "tested": "6.7",
   "requires_php": "7.4",
-  "last_updated": "2026-05-11",
+  "last_updated": "2026-05-12",
   "download_url": "https://www.data-civil.com/updates/webinar-cards.zip",
   "sha256": "",
   "sections": {
     "description": "Responsive webinar card grid with inline YouTube and Vimeo embeds. Managed via a custom post type and a shortcode [webinar_cards]. Cards show the video thumbnail and play inline on click. Includes an email gate to restrict access by allowed domain or specific email address.",
-    "changelog": "<h4>1.1.1</h4><ul><li>Fix: Registration link now redirects the user back to the originating page after account creation.</li></ul><h4>1.1.0</h4><ul><li>New: Email gate — restrict video access by allowed domain or specific email address.</li><li>New: Access Settings admin page (Webinars → Access Settings) to manage gate rules.</li><li>New: Secure 24-hour access token cookie; separate JS-readable grant cookie for compatibility with NitroPack, LiteSpeed Cache, WP Rocket, and other page-cache plugins.</li><li>New: Gate modal with email input, inline error messages, and sign-in / register fallback links.</li><li>Fix: Webinars without a Date field were excluded from the grid after cache expiry. Now all published webinars appear; undated ones sort to the bottom.</li></ul><h4>1.0.0</h4><ul><li>Initial release.</li><li>Custom post type: webinar (title, excerpt, thumbnail, YouTube/Vimeo URL, speaker, date).</li><li>Webinar Categories taxonomy with shortcode filtering.</li><li>Responsive grid shortcode [webinar_cards] with desktop / tablet / mobile column control.</li><li>YouTube and Vimeo inline embed on card click (autoplay, fullscreen-capable).</li><li>YouTube thumbnail via mqdefault (16:9, no black bars). Vimeo thumbnail via oEmbed API, cached 30 days.</li><li>Shortcode output caching via transient (1 hour, auto-invalidated on content change).</li><li>Self-hosted auto-updater with optional SHA-256 checksum verification.</li></ul>"
+    "changelog": "<h4>1.1.2</h4><ul><li>Fix: NitroPack page cache is now automatically purged when a webinar is saved or deleted, so new cards appear on the site immediately without a manual cache clear.</li></ul><h4>1.1.1</h4><ul><li>Fix: Registration link now redirects the user back to the originating page after account creation.</li></ul><h4>1.1.0</h4><ul><li>New: Email gate — restrict video access by allowed domain or specific email address.</li><li>New: Access Settings admin page (Webinars → Access Settings) to manage gate rules.</li><li>New: Secure 24-hour access token cookie; separate JS-readable grant cookie for compatibility with NitroPack, LiteSpeed Cache, WP Rocket, and other page-cache plugins.</li><li>New: Gate modal with email input, inline error messages, and sign-in / register fallback links.</li><li>Fix: Webinars without a Date field were excluded from the grid after cache expiry. Now all published webinars appear; undated ones sort to the bottom.</li></ul><h4>1.0.0</h4><ul><li>Initial release.</li><li>Custom post type: webinar (title, excerpt, thumbnail, YouTube/Vimeo URL, speaker, date).</li><li>Webinar Categories taxonomy with shortcode filtering.</li><li>Responsive grid shortcode [webinar_cards] with desktop / tablet / mobile column control.</li><li>YouTube and Vimeo inline embed on card click (autoplay, fullscreen-capable).</li><li>YouTube thumbnail via mqdefault (16:9, no black bars). Vimeo thumbnail via oEmbed API, cached 30 days.</li><li>Shortcode output caching via transient (1 hour, auto-invalidated on content change).</li><li>Self-hosted auto-updater with optional SHA-256 checksum verification.</li></ul>"
   },
   "banners": {
     "low": "",
