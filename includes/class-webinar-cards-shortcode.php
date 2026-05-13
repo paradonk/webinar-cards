@@ -52,6 +52,9 @@ class Webinar_Cards_Shortcode {
 		);
 
 		add_shortcode( 'webinar_cards', array( __CLASS__, 'render_shortcode' ) );
+
+		// Cron callback for deferred NitroPack purge (runs outside admin context).
+		add_action( 'wbc_purge_nitropack', array( __CLASS__, 'cron_purge_nitropack' ) );
 	}
 
 	/**
@@ -193,25 +196,70 @@ class Webinar_Cards_Shortcode {
 	}
 
 	/**
-	 * Purge NitroPack's page cache for every published page that contains
-	 * the [webinar_cards] shortcode. Falls back to a full purge when no
-	 * matching pages are found. No-op when NitroPack is not active.
+	 * Collect URLs and trigger a dual-path NitroPack purge.
+	 *
+	 * NitroPack only registers its integration hooks on non-admin (front-end)
+	 * requests, so calling do_action() from inside an admin save is a silent
+	 * no-op. This method therefore:
+	 *   1. Tries an immediate purge (works on front-end saves or future
+	 *      NitroPack versions that register hooks on admin).
+	 *   2. Persists the URL list and schedules a WP-Cron event. The cron
+	 *      callback runs outside admin context (is_admin() === false), so
+	 *      NitroPack's hooks ARE registered and the purge actually fires.
 	 *
 	 * @return void
 	 */
 	private static function purge_nitropack_cache() {
 		global $wpdb;
 
-		// Find published pages/posts that embed the shortcode.
 		$ids = $wpdb->get_col(
 			"SELECT ID FROM {$wpdb->posts}
 			 WHERE post_status = 'publish'
 			   AND post_content LIKE '%[webinar_cards%'"
 		);
 
-		if ( ! empty( $ids ) ) {
-			foreach ( $ids as $post_id ) {
-				do_action( 'nitropack_integration_purge_url', get_permalink( (int) $post_id ) );
+		$urls = array();
+		foreach ( (array) $ids as $post_id ) {
+			$url = get_permalink( (int) $post_id );
+			if ( $url ) {
+				$urls[] = $url;
+			}
+		}
+
+		// Immediate attempt — no-op in admin but succeeds on front-end saves.
+		self::fire_nitropack_purge( $urls );
+
+		// Deferred attempt via WP-Cron so the purge fires in a non-admin
+		// context where NitroPack's integration hooks are registered.
+		set_transient( 'wbc_nitropack_purge_urls', $urls, 300 );
+		if ( ! wp_next_scheduled( 'wbc_purge_nitropack' ) ) {
+			wp_schedule_single_event( time(), 'wbc_purge_nitropack' );
+		}
+	}
+
+	/**
+	 * WP-Cron callback: purge NitroPack cache for webinar grid pages.
+	 * Runs outside admin context, so NitroPack's integration hooks are active.
+	 *
+	 * @return void
+	 */
+	public static function cron_purge_nitropack() {
+		$urls = (array) get_transient( 'wbc_nitropack_purge_urls' );
+		delete_transient( 'wbc_nitropack_purge_urls' );
+		self::fire_nitropack_purge( $urls );
+	}
+
+	/**
+	 * Call NitroPack's integration actions for the given URL list.
+	 * Falls back to a full purge when the list is empty.
+	 *
+	 * @param array $urls Front-end URLs to purge.
+	 * @return void
+	 */
+	private static function fire_nitropack_purge( array $urls ) {
+		if ( ! empty( $urls ) ) {
+			foreach ( $urls as $url ) {
+				do_action( 'nitropack_integration_purge_url', $url );
 			}
 		} else {
 			do_action( 'nitropack_integration_purge_all' );

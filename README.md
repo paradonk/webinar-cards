@@ -2,7 +2,7 @@
 
 A WordPress plugin that replaces hardcoded webinar listings with dynamic webinar posts managed from the admin area. Each card displays a video thumbnail that plays inline on click — no page redirect. Supports both YouTube and Vimeo.
 
-**Version:** 1.1.3 | **Requires:** WordPress 6.0+ | **Tested up to:** 6.9 | **PHP:** 7.4+ | **License:** GPLv2
+**Version:** 1.1.4 | **Requires:** WordPress 6.0+ | **Tested up to:** 6.9.4 | **PHP:** 7.4+ | **License:** GPLv2
 
 ![webinar-cards Screenshot](webinar-cards.png)
 
@@ -117,6 +117,9 @@ webinar-cards/
 ---
 
 ## Changelog
+
+### 1.1.4
+- Fix: NitroPack page cache is now reliably purged when a webinar is saved. NitroPack only registers its integration hooks on non-admin (front-end) requests, so the previous `do_action()` calls from admin saves were silent no-ops. The purge now also runs via a WP-Cron event that fires outside admin context where NitroPack's hooks are active.
 
 ### 1.1.3
 - Fix: NitroPack cache purge now triggers correctly on every webinar save. The `has_action()` guard was causing the purge to be skipped on admin requests because NitroPack registers its integration hooks on front-end requests only.

@@ -1,10 +1,10 @@
 === Webinar Cards ===
-Contributors: paradonk
+Contributors: K.Paradorn
 Tags: webinar, video, youtube, vimeo, shortcode
 Requires at least: 6.0
-Tested up to: 6.9
+Tested up to: 6.9.4
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,9 @@ Use the `category` attribute with the category slug: `[webinar_cards category="m
 
 == Changelog ==
 
+= 1.1.4 =
+* Fix: NitroPack page cache is now reliably purged when a webinar is saved. NitroPack only registers its integration hooks on non-admin requests, so previous do_action() calls from admin saves were silent no-ops. The purge now also runs via a WP-Cron event that fires outside admin context, where NitroPack's hooks are active.
+
 = 1.1.3 =
 * Fix: NitroPack cache purge now triggers correctly on every webinar save. The has_action guard was causing the purge to be skipped on admin requests because NitroPack registers its integration hooks on front-end requests only.
 
@@ -120,6 +123,9 @@ Use the `category` attribute with the category slug: `[webinar_cards category="m
 * Self-hosted auto-updater with optional SHA-256 checksum verification.
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+Fixes NitroPack cache not clearing after adding or editing a webinar. Upgrade required if cards don't appear after saving.
 
 = 1.1.3 =
 Fixes automatic NitroPack cache purging after adding or editing a webinar. Upgrade recommended for all NitroPack users.
